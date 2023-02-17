@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 import { IEmployee } from "./types";
 
 let namesContainer = [<div></div>];
@@ -59,19 +61,23 @@ const showNames = (org: any, level: number) => {
 };
 
 export const generateHeirarchy = (data: IEmployee[]) => {
-  // let ids = [] as number[];
+  let ids = [] as number[];
 
-  // data.map((x: IEmployee) => ids.push(x.id));
+  data.map((x: IEmployee) => ids.push(x.id));
 
-  // console.log("ttt", ids);
-
-  //   try {
-  //     data.map((x: IEmployee) => {
-  //       if (!ids.includes(x.manager_id!)) throw new Error("Invalid manager");
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
+  data.map((x: IEmployee) => {
+    if (x.manager_id) {
+      if (!ids.includes(x.manager_id)) {
+        toast.error(
+          `The manager with manager ID ${x?.manager_id} does not exist`,
+          {
+            position: "top-center",
+            autoClose: false,
+          }
+        );
+      }
+    }
+  });
 
   const hierarchy = buildHierarchy(data);
 

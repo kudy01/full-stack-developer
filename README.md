@@ -139,6 +139,8 @@ const loadNames = (
 
 I used React(typescript) as the front-end framework to display the data into HTML because react supports TSX, so I was able to use both my generation logic and create HTML elements in the same function. The reason I used typescript version of react is to support better typing(functions) and use of interfaces.
 
+In case of a invalid manager, I have used `react-toastify` to dsiplay the error in a banner form (to test, simply add an invalid user in `data.tsx`), while displaying the organisation heirarchy, where as for an employee with no manager id, he becomes a CEO as specified.
+
 ### Test/Build/Running your Project
 
 If someone were to run your application locally, what are the steps that needs to be done (ex. mvn clean package, yarn start) to view the output,
