@@ -30,9 +30,9 @@ export const organisation = [
     id: 190,
     manager_id: 400,
   },
-  // {
-  //   name: "Noman",
-  //   id: 290,
-  //   manager_id: 4200,
-  // },
+  {
+    name: "Noman",
+    id: 290,
+    manager_id: 4200,
+  },
 ] as IEmployee[];

@@ -1,15 +1,14 @@
-import { organisation } from "./data";
 import { IEmployee } from "./types";
 
 let namesContainer = [<div></div>];
 
-const buildHierarchy = (id?: number): any => {
-  return organisation
+const buildHierarchy = (data: IEmployee[], id?: number): any => {
+  return data
     .filter((x) => x?.manager_id === id)
     .map((x) => {
       return {
         self: x,
-        children: buildHierarchy(x.id),
+        children: buildHierarchy(data, x.id),
       };
     });
 };
@@ -26,7 +25,11 @@ const loadNames = (
       }}
     >
       <div>
-        <p>
+        <div
+          style={{
+            margin: "16px 0px",
+          }}
+        >
           {level === 0 ? (
             <>
               <strong>{orgObj.self.name}</strong>
@@ -35,7 +38,7 @@ const loadNames = (
           ) : (
             orgObj.self.name
           )}
-        </p>
+        </div>
       </div>
     </div>
   );
@@ -52,7 +55,6 @@ const showNames = (org: any, level: number) => {
     if (org[i]["children"] && org[i]["children"].length) {
       showNames(org[i]["children"], level + 1);
     }
-    debugger;
   }
 };
 
@@ -71,8 +73,7 @@ export const generateHeirarchy = (data: IEmployee[]) => {
   //     console.log(error);
   //   }
 
-  const hierarchy = buildHierarchy();
-  console.log("test", hierarchy);
+  const hierarchy = buildHierarchy(data);
 
   showNames(hierarchy, 0);
 

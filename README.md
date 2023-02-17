@@ -68,7 +68,9 @@ and then processed into a children level data strcuture through recursion :-
 
 _UPDATE ME: Explain briefly the algorithim that you used to display the data in an hierarchical manner._
 
-To convert the input strcuture into the heirarchial data structure, I used recursion, to generate a new data structure with keys as `self` and `children`, after which I ran another recursive function to take an empty `div` tag and keep on adding the elements in it, with a padding according to the heirarchial level
+To convert the input strcuture into the heirarchial data structure, I used recursion, to generate a new data structure with keys as `self` and `children`, so essentially an array of objects representing the nodes of the tree
+
+To display the heirarchial structure in HTMl specified format, I used two functions `loadNames` and `showNames`, The input data is an array of objects representing the nodes of the tree. The `loadNames` function generates HTML to display the name of each node and adds it to an array of JSX elements. The `showNames` function iterates over the array of nodes, calls `loadNames` to generate HTML for each node, and then recursively calls itself with the children of the current node (if any). Together, these functions generate an array of HTML elements representing the org chart
 
 ```
 Paste your function/s here
@@ -86,11 +88,56 @@ const buildHierarchy = (id?: number): any => {
 
 To convert heirarchial data into html heirarchial display:
 
+const showNames = (org: any, level: number) => {
+  for (let i = 0; i < org.length; i++) {
+    namesContainer = loadNames(org[i], namesContainer, level);
+
+    if (org[i]["children"] && org[i]["children"].length) {
+      showNames(org[i]["children"], level + 1);
+    }
+  }
+};
+
+const loadNames = (
+  orgObj: any,
+  namesContainer: JSX.Element[],
+  level: number
+) => {
+  let nameHtml = (
+    <div
+      style={{
+        paddingLeft: `${level * 100}px`,
+      }}
+    >
+      <div>
+        <div
+          style={{
+            margin: "16px 0px",
+          }}
+        >
+          {level === 0 ? (
+            <>
+              <strong>{orgObj.self.name}</strong>
+              <hr />
+            </>
+          ) : (
+            orgObj.self.name
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  namesContainer.push(nameHtml);
+
+  return namesContainer;
+};
+
 ```
 
 ### Display/Front-end Framework
 
-_UPDATE ME_: Describe the approach that you used to display the results.\*
+I used React(typescript) as the front-end framework to display the data into HTML because react supports TSX, so I was able to use both my generation logic and create HTML elements in the same function. The reason I used typescript version of react is to support better typing(functions) and use of interfaces.
 
 ### Test/Build/Running your Project
 
@@ -132,6 +179,8 @@ Implement a REST endpoint to **GET all employees** in your dataset. This should 
 }
 ```
 
+**Built a server and Implemented**
+
 ### Containerized Deployment (Docker) and Demo Link
 
 _UPDATE ME: Containerize your application using **Docker** and publish it using any \*\*free cloud hosting environment of your choice (Netlify, Firebase, Azure, etc.). Add the link to this section._
@@ -139,6 +188,13 @@ _UPDATE ME: Containerize your application using **Docker** and publish it using 
 ### Adding unit tests
 
 Add a testing library and include it as part of the build step. A single test case should be enough.
+
+Added tests, to run test:
+
+```
+cd server
+npm run test
+```
 
 ## Criteria
 
