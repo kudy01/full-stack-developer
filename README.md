@@ -74,7 +74,9 @@ To display the heirarchial structure in HTMl specified format, I used two functi
 
 ```
 Paste your function/s here
+
 To convert input data into heirarchial data:
+
 const buildHierarchy = (id?: number): any => {
   return organisation
     .filter((x) => x?.manager_id === id)
